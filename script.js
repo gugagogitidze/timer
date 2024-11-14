@@ -1,33 +1,42 @@
-let daysitem = document.querySelector("#day");
-let hoursitem = document.querySelector("#hour");
-let minitem = document.querySelector("#minutes");
-let secitem = document.querySelector("#seconds");
+let day = Number(prompt("შეიყვანე დღე"));
+let hour = Number(prompt("შეიყვანე საათი"));
+let minute = Number(prompt("შეიყვანე წუთი"));
+let second = Number(prompt("შეიყვანე წამი"));
 
-let year = prompt("Enter Year");
-let month = prompt("Enter Month With Number");
-let day = prompt("Enter Day");
+let dayDiv = document.getElementById("day");
+let hourDiv = document.getElementById("hour");
+let minuteDiv = document.getElementById("minute");
+let secondDiv = document.getElementById("second");
 
-function countDown() {
-  let futureDate = new Date(year, month - 1, day);
-  let currentDate = new Date();
-  const diff = futureDate - currentDate;
+let timer = setInterval(() => {
+  dayDiv.textContent = day;
+  hourDiv.textContent = hour;
+  minuteDiv.textContent = minute;
+  secondDiv.textContent = second;
 
-  if (diff <= 0) {
-    document.body.innerHTML = "<h1>დრო გავიდა</h1>";
-    clearInterval(countdownInterval);
-    return;
+  second--;
+
+  if (second < 0) {
+    second = 59;
+    minute--;
   }
 
-  const d = Math.floor(diff / 1000 / 60 / 60 / 24);
-  const h = Math.floor(diff / 1000 / 60 / 60) % 24;
-  const m = Math.floor(diff / 1000 / 60) % 60;
-  const s = Math.floor(diff / 1000) % 60;
+  if (minute < 0) {
+    minute = 59;
+    hour--;
+  }
 
-  daysitem.innerHTML = d;
-  hoursitem.innerHTML = h < 10 ? "0" + h : h;
-  minitem.innerHTML = m < 10 ? "0" + m : m;
-  secitem.innerHTML = s < 10 ? "0" + s : s;
-}
+  if (hour < 0) {
+    hour = 23;
+    day--;
+  }
 
-let countdownInterval = setInterval(countDown, 1000);
-countDown();
+  if (day < 0) {
+    day = 0;
+  }
+
+  if (day === 0 && hour === 0 && minute === 0 && second === 0) {
+    alert("congratulations");
+    clearInterval(timer);
+  }
+}, 1000);
